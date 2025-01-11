@@ -1,0 +1,38 @@
+import socket 
+from time import sleep
+# Creating Client Socket 
+if __name__ == '__main__': 
+    host = '192.168.189.185'
+    port = 8080
+  
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+# Connecting with Server 
+    sock.connect((host, port)) 
+  
+    while True: 
+  
+        filename = input('Input filename you want to send: ') 
+        try: 
+           # Reading file and sending data to server 
+            fi = open(filename, "r") 
+            data = fi.read() 
+            if not data: 
+                break
+            while data: 
+                sock.send(str(data).encode()) 
+                data = fi.read() 
+            # File is closed after data is sent
+            fi.close()
+
+            ulang = input('Wanna continue to Send (y/n)? :')
+            if ulang == "Y" or ulang == "y":   
+              print('Loading...')           
+              sleep(2) 
+            else:
+              print('Terima kasih')  
+              break 
+            
+            
+  
+        except IOError: 
+            print('You entered an invalid filename!\n Please enter a valid name') 
